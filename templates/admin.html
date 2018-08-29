@@ -1,0 +1,212 @@
+
+<div data-ng-if="!loading" class="smooth-enter">
+    <div class="container admin">
+        <div class="row">
+            
+            <!-- SUBJECTS -->
+            <div  class="col-md-4">
+                <div class="card text-left" style="width: 35rem;">
+                    <div class="card-header">
+                        <h3 class="d-inline">Subjects</h3>
+                        <button type="button" class="btn btn-danger float-right d-inline" ng-click="removeSubject()"><span
+                            class="fas fa-trash"></span></button>
+                        <button type="button" class="btn btn-success float-right d-inline" ng-click="editing('Subjects')"><span
+                            class="fas fa-pencil-alt"></span></button>
+                        <button type="button" class="btn btn-primary float-right d-inline" ng-click="addSubject()"><span
+                            class="fas fa-plus"></span></button>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group search-wrap">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                            <input type="text" class="form-control" ng-model="query" ng-change="onFilterChange(query)" placeholder="Search..." />
+                        </div>
+                        <div ng-if="cancer.editType != 'Subjects'">
+                            <div ivh-treeview="list" ivh-treeview-filter="query" ivh-treeview-options="options" style="margin: 10px 10px 15px -20px;">
+                                <script type="text/ng-template">
+                                    <div ng-click="trvw.pick(node, !node.mSelected, $event)" class="node-embed" ng-class="{nodeActive:node.mSelected}" style="cursor: pointer;">
+                                        <span ivh-treeview-toggle>
+                                            <span ivh-treeview-twistie></span>
+                                        </span>
+                                        <span ng-if="trvw.useCheckboxes()" ivh-treeview-checkbox></span>
+                                        <!-- <span class="ivh-treeview-node-label">
+                                                <i ng-class="{'fa fa-book': node.items.length, 'fa fa-address-book': !node.items.length}"></i>
+                                            {{:: trvw.label(node)}}
+                                        </span> -->
+                                        
+                                        <span class="ivh-treeview-node-label" ng-if="!node.editme">
+                                            <i ng-class="{'fa fa-book': node.items.length, 'fa fa-address-book': !node.items.length}"></i>
+                                            {{node.label}}                                        
+                                        </span>
+
+                                        <!-- Edit node after adding  -->
+                                        <span class="ivh-treeview-node-label" ng-if="node.editme">
+                                            <form name="subjEdit" ng-submit="trvw.edit(node, $event)" style="display:inline; margin: 0; padding: 0;" >
+                                                <input class="form-check-input" type="text" ng-model="node.label" width="10px" focus-me="true" require/>
+                                            </form>
+                                        </span>
+
+
+                                        <hr id="under"> 
+                                    </div>
+                                    <div ivh-treeview-children></div>
+                                </script>
+                            </div>
+                        </div>
+                            
+                        <div ng-if="cancer.editType == 'Subjects'">
+                            <div ivh-treeview="list" ivh-treeview-options="options" class="tree" style="margin: 10px 10px 15px -20px;">
+                                <script type="text/ng-template">
+                                    <form name="subjEdit"  ng-submit="trvw.edit()" >
+                                        <div class="node-embed" ng-class="{nodeActivex:node.mSelected}" >
+                                            <span ivh-treeview-toggle>
+                                                <span ivh-treeview-twistie></span>
+                                            </span>
+                                            <span ng-if="trvw.useCheckboxes()" ivh-treeview-checkbox></span>
+                                            <!--If not selected, show just label-->
+                                            <span class="ivh-treeview-node-label" ng-if="!node.mSelected">
+                                                <i ng-class="{'fa fa-book': node.items.length, 'fa fa-address-book': !node.items.length}"></i>  
+                                                {{node.label}}                                   
+                                            </span>
+                                            
+                                            <!--If selected, show form input-->
+                                            <span class="ivh-treeview-node-label" ng-if="node.mSelected">
+                                                <!-- wierd gymnastics between node.title and node.label -->
+                                                
+                                                <input class="form-check-input" type="text" ng-model="node.label" focus-me="true" require/>
+                                            </span>
+                                            <hr id="under"> 
+                                        </div>
+                                    </form>
+                                    <div ivh-treeview-children></div>
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Subjects tree & search -->
+
+                </div>
+            </div>
+        
+            <!-- AREAS -->
+            <div class="col-md-4">
+                <div class="card text-left" style="width: 25rem;">
+                    <div class="card-header">
+                        <h3 class="d-inline">Areas</h3>
+                        <button type="button" class="btn btn-danger float-right d-inline" ng-click="remove('Areas')"><span
+                            class="fas fa-trash"></span>
+                        </button>
+                        <button type="button" class="btn btn-success float-right d-inline" ng-click="editing('Areas')"><span
+                            class="fas fa-pencil-alt"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary float-right" ng-click="adding('Areas')"><span
+                            class="fas fa-plus"></span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check" ng-if="editType != 'Areas'" ng-repeat="area in Areas">
+                            <div ng-click="itemSelect('Areas', area)" ng-class="{nodeActive:area.isSelected}"  style="padding-left: 4px">
+                                <input class="form-check-input" type="checkbox" ng-checked="area.checked" value="" >
+                                <label class="form-check-label" for="Check">
+                                {{area.value}}
+                                </label>
+                            </div>
+                            <hr id="under"> 
+                        </div> 
+                        <!-- Areas Edit Form -->
+                        <div class="form-check" ng-if="editType == 'Areas'" ng-repeat="area in Areas">
+                            <form ng-submit="edit('area')"  name="editAreaForm" >
+                                <div ng-if="!area.isSelected" ng-class="{nodeActive:area.isSelected}">
+                                    <input class="form-check-input" type="checkbox" ng-checked="area.checked" value="" >
+                                    <label class="form-check-label" for="Check">
+                                    {{area.value}}
+                                    </label>
+                                </div>
+
+                                <div ng-if="area.isSelected">
+                                    <input class="form-check-input" type="checkbox" value="" ng-checked="area.checked">
+                                    <input class="form-check-input" type="text" name="editArea" ng-model="area.value" focus-me="true" required />
+                                </div>
+                                <hr id="under"> 
+                            </form>  
+                        </div>
+
+                        <!-- New Area Form (show template 'New Area' until user submits edit form, then sets model value) -->
+                        <div ng-if="addType == 'Areas'">
+                            <form ng-submit="add('area')"  name="addAreaForm" >
+                                <input class="form-check-input" type="checkbox" value="" ng-checked="Area.checked">
+                                <input class="form-check-input" type="text" name="editGrade" ng-model="Area.value" focus-me="true" required />
+                            </form>  
+                        </div>
+                    </div> 
+                </div>
+            </div>  
+        
+            <!-- GRADES -->
+            <div class="col-md-4">
+                <div class="card text-left" style="width: 25rem;">
+                    <div class="card-header">
+                        <h3 class="d-inline">Grades</h3>
+                        <button type="button" class="btn btn-danger float-right d-inline" ng-click="remove('Grades')"><span
+                            class="fas fa-trash"></span>
+                        </button>
+                        <button type="button" class="btn btn-success float-right d-inline" ng-click="editing('Grades')"><span
+                            class="fas fa-pencil-alt"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary float-right d-inline" ng-click="adding('Grades')"><span
+                            class="fas fa-plus"></span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check" ng-if="editType != 'Grades'" ng-repeat="grade in Grades">
+                            <div ng-click="itemSelect('Grades',grade)" ng-class="{nodeActive:grade.isSelected}"  style="padding-left: 4px">
+                                <input class="form-check-input" type="checkbox" value="" ng-checked="grade.checked" >
+                                <label class="form-check-label" for="Check">
+                                {{grade.value}}
+                                </label>
+                            </div>
+                            <hr id="under"> 
+                        </div>    
+                        <!-- Grades Edit Form -->
+                        <div class="form-check" ng-if="editType == 'Grades'" ng-repeat="grade in Grades">
+                            <form ng-submit="edit('grade', grade)"  name="editGradeForm" >    
+                                <div ng-if="!grade.isSelected"  ng-class="{nodeActive:grade.isSelected}">
+                                    <input class="form-check-input" type="checkbox" value="" ng-checked="grade.checked" >
+                                    <label class="form-check-label" for="Check">
+                                    {{grade.value}}
+                                    </label>
+                                </div>
+                                <div ng-if="grade.isSelected">
+                                    <input class="form-check-input" type="checkbox" value="" ng-checked="grade.checked">
+                                    <input class="form-check-input" type="text" name="editGrade" ng-model="grade.value" focus-me="true" required />
+                                </div>
+                                <hr id="under"> 
+                            </form> 
+                        </div>
+                        <!-- New Grade Form-->
+                        <div ng-if="addType == 'Grades'">
+                            <form ng-submit="add('grade')" name="addGradeForm" >
+                                <input class="form-check-input" type="checkbox" value="" id="Check" ng-checked="Grade.checked"/>
+                                <input class="form-check-input" type="text" name="newGrade" ng-model="Grade.value" value="Grade.Value" focus-me="true" required />
+                            </form>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center" style="margin-top: 50px">
+        <button class="btn btn-primary" ng-click="save()">SAVE</button>
+        <button class="btn btn-primary" ng-click="getStore()">GET (LOCAL STORE)</button>
+    </div>
+        
+</div>
+
+
+    
+    <!-- Loading Spinner -->
+    <div class="loader" data-ng-if="loading">
+        <i class="fas fa-circle-notch fa-spin fa-5x centered"></i>
+    </div>
+    
+    
