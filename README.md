@@ -1,19 +1,22 @@
 # Admin_Page
 
-#### Dependencies
+### Dependencies
 
 * Libraries in 'content' folder
+* Styles in 'content' folder
 * Local-store.js in 'services' folder
-* Bootstrap styling
+* Bootstrap
 
-Some css styles may break
+*Some css styles may break
 
 ```
+------------------- app.js ----------------------
 var modules = [ 'ivh.treeview',
                 'LocalStorageModule' ] ;
 
 var app = angular.module('app', modules);
 
+----------------- index.html --------------------
 <!-- Styling -->
 <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="Content/css/ivh-treeview.css"> 
@@ -29,7 +32,7 @@ var app = angular.module('app', modules);
 <script src="Angular/attendance/admin/controller/adminController.js?version=1"></script>
 ```
 
-#### Features
+### Features
 * Admin/Edit/Delete - Subjects/Areas/Grades
 * Search Subjects
 * Save data to local store (replace with database service).
