@@ -33,7 +33,7 @@ var app = angular.module('app', modules);
 ```
 
 ### Features
-* Admin/Edit/Delete - Subjects/Areas/Grades
+* Create/Edit/Delete - Subjects/Areas/Grades
 * Search Subjects
 * Save data to local store (replace with database service).
 * Get data from local store (replace with database service).
